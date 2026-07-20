@@ -23,17 +23,17 @@ the reply out loud.
 | `index.html` | Page structure: chat log + mic button |
 | `style.css` | Chat UI styling |
 | `app.js` | Speech recognition, calling the backend, speech synthesis |
-| `chat.php` | Server-side proxy that calls the Cohere API securely |
+| `bot_api.php` | Server-side proxy that calls the Cohere API securely |
 
 ## Setup — split hosting (GitHub Pages + a PHP host)
 
 GitHub Pages only serves static files (HTML/CSS/JS) — it **cannot run
-`chat.php`**. So the frontend and backend live on two different hosts:
+`bot_api.php`**. So the frontend and backend live on two different hosts:
 
 | Part | Goes on |
 |---|---|
 | `index.html`, `style.css`, `app.js` | GitHub Pages (static, free) |
-| `chat.php` | A free PHP host, e.g. [000webhost](https://www.000webhost.com) or [InfinityFree](https://infinityfree.net) |
+| `bot_api.php` | A free PHP host, e.g. [000webhost](https://www.000webhost.com) or [InfinityFree](https://infinityfree.net) |
 
 **Steps:**
 
@@ -41,13 +41,13 @@ GitHub Pages only serves static files (HTML/CSS/JS) — it **cannot run
    Sign up at [dashboard.cohere.com](https://dashboard.cohere.com/api-keys)
    and copy your trial API key.
 
-2. **Deploy `chat.php` to a PHP host** (000webhost, InfinityFree, or your
+2. **Deploy `bot_api.php` to a PHP host** (000webhost, InfinityFree, or your
    school's hosting). Set the API key there — either:
    - Replace `PASTE_YOUR_COHERE_API_KEY_HERE` directly in the file, **or**
    - Set it as an environment variable named `COHERE_API_KEY` (recommended
      if your host supports it).
 
-   Note the full URL where `chat.php` now lives, e.g.
+   Note the full URL where `bot_api.php` now lives, e.g.
    `https://yoursite.000webhostapp.com/chat.php`.
 
 3. **Update `app.js`** — find the line:
@@ -61,7 +61,7 @@ GitHub Pages only serves static files (HTML/CSS/JS) — it **cannot run
    `main` branch). GitHub will give you a URL like
    `https://yourusername.github.io/your-repo/`.
 
-5. **(Optional, more secure)** In `chat.php`, replace the CORS line
+5. **(Optional, more secure)** In `bot_api.php`, replace the CORS line
    ```php
    header("Access-Control-Allow-Origin: *");
    ```
@@ -81,4 +81,4 @@ GitHub Pages only serves static files (HTML/CSS/JS) — it **cannot run
 - `recognition.lang` and `utterance.lang` in `app.js` are set to `"en-US"` —
   change both to `"ar-SA"` for Arabic input/output, or any other locale.
 - Never put the Cohere API key directly in `app.js` — that would expose it
-  to anyone viewing the page source. Always route it through `chat.php`.
+  to anyone viewing the page source. Always route it through `bot_api.php`.
