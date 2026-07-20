@@ -60,7 +60,7 @@ if (!SpeechRecognition) {
 // (GitHub Pages can only serve static files). Replace this with the
 // full URL where you uploaded chat.php, e.g.:
 // "https://yoursite.000webhostapp.com/chat.php"
-const CHAT_API_URL = "https://REPLACE-WITH-YOUR-PHP-HOST/chat.php";
+const CHAT_API_URL = "http://aiisbadasfuckifuneednameideas.site.je/bot_api.php";
 
 async function askLLM(prompt) {
   const res = await fetch(CHAT_API_URL, {
