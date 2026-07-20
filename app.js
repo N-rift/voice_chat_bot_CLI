@@ -65,7 +65,10 @@ const CHAT_API_URL = "https://aiisbadasfuckifuneednameideas.site.je/bot_api.php"
 async function askLLM(prompt) {
   const res = await fetch(CHAT_API_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    // text/plain avoids a CORS "preflight" OPTIONS request, which some
+    // free hosts (like InfinityFree) block before it reaches our PHP code.
+    // The body is still valid JSON — bot_api.php parses it the same way.
+    headers: { "Content-Type": "text/plain" },
     body: JSON.stringify({ prompt })
   });
 
