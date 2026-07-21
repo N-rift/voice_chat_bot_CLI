@@ -14,6 +14,8 @@ Press Ctrl+C to quit.
 import speech_recognition as sr
 import pyttsx3
 import cohere
+import sounddevice as sd
+import numpy as np
 
 # ------------------------------------------------------------------
 # 1. Put your Cohere API key here.
@@ -27,21 +29,29 @@ co = cohere.Client(COHERE_API_KEY)
 tts_engine = pyttsx3.init()
 tts_engine.setProperty("rate", 175)  # speaking speed
 
-# Speech recognizer (uses the microphone)
+# Speech recognizer (does the actual speech-to-text conversion)
 recognizer = sr.Recognizer()
-mic = sr.Microphone()
+
+SAMPLE_RATE = 16000
+RECORD_SECONDS = 5  # how long to record each time you speak
 
 
 def listen() -> str:
-    """Step 1: Capture audio from the mic and convert it to text."""
-    with mic as source:
-        print("\n🎤 Listening... (speak now)")
-        recognizer.adjust_for_ambient_noise(source, duration=0.5)
-        audio = recognizer.listen(source)
+    """Step 1: Record audio from the mic (via sounddevice) and convert it to text."""
+    print(f"\n🎤 Listening... (speak now, recording for {RECORD_SECONDS}s)")
+    audio_array = sd.rec(
+        int(RECORD_SECONDS * SAMPLE_RATE),
+        samplerate=SAMPLE_RATE,
+        channels=1,
+        dtype="int16",
+    )
+    sd.wait()  # block until recording finishes
 
     print("📝 Transcribing...")
+    audio_data = sr.AudioData(audio_array.tobytes(), SAMPLE_RATE, 2)
+
     try:
-        text = recognizer.recognize_google(audio)
+        text = recognizer.recognize_google(audio_data)
         print(f"You said: {text}")
         return text
     except sr.UnknownValueError:

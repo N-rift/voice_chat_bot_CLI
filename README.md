@@ -6,9 +6,9 @@ sends it to Cohere, and speaks the reply back — all from `cmd`/terminal.
 
 ## How it works
 
-1. **Speech → Text** — `speech_recognition` captures audio from your
-   microphone and sends it to Google's free speech recognition API to get
-   text back.
+1. **Speech → Text** — `sounddevice` records a few seconds of audio from
+   your microphone, which `speech_recognition` then sends to Google's free
+   speech recognition API to get text back.
 2. **Text → LLM reply** — the text is sent to Cohere's Chat API using the
    `cohere` Python package, which returns a reply.
 3. **Text → Speech** — `pyttsx3` reads the reply out loud using your
@@ -40,13 +40,6 @@ Open `cmd` (or terminal), navigate to this folder, and run:
 pip install -r requirements.txt
 ```
 
-**If `PyAudio` fails to install on Windows** (common issue — it needs a
-compiled binary), run this instead:
-```
-pip install pipwin
-pipwin install pyaudio
-```
-
 ### 5. Run it
 ```
 python voice_bot.py
@@ -56,10 +49,13 @@ Speak when you see `🎤 Listening...`. Press `Ctrl+C` to quit.
 
 ## Troubleshooting
 
-- **"No module named 'pyaudio'"** → use the `pipwin` method above.
+- **"No module named 'sounddevice'"** → run `pip install -r requirements.txt`
+  again; make sure it completed without errors.
 - **Nothing happens when you speak / "Couldn't understand that"** →
   check your microphone is set as the default input device in your OS
-  sound settings.
+  sound settings. Also try speaking as soon as "Listening..." appears —
+  each recording is a fixed 5 seconds (change `RECORD_SECONDS` near the
+  top of `voice_bot.py` if you need more/less time).
 - **No sound plays for the reply** → some systems need a specific voice
   installed for `pyttsx3` to work; check Windows Settings → Time & Language
   → Speech to confirm a voice is installed.
