@@ -3,3 +3,5 @@ pyttsx3==2.90
 cohere==5.5.8
 sounddevice==0.5.1
 numpy
+standard-aifc
+audioop-lts

@@ -64,7 +64,7 @@ def listen() -> str:
 
 def ask_llm(prompt: str) -> str:
     """Step 2: Send the recognized text to Cohere and get a reply."""
-    response = co.chat(model="command-r", message=prompt)
+    response = co.chat(model="command-r7b-12-2024", message=prompt)
     return response.text
 
 
