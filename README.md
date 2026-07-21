@@ -15,6 +15,9 @@ sends it to Cohere, and speaks the reply back — all from `cmd`/terminal.
    system's built-in text-to-speech voices (fully offline, no internet
    needed for this step).
 
+## Demo
+![Voice bot demo](demo.gif)
+
 ## Setup
 
 ### 1. Install Python
